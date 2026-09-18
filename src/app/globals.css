@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --paper: #f4ede4;
+  --ink: #1c1512;
+  --accent: #7b1e2c;
+  --soft: #eacbc6;
+  --detail: #b8875a;
+  --font-headline: "Bodoni Moda", serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-signature: "Pinyon Script", cursive;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--soft);
+  color: var(--ink);
+}
+
+.text-editorial-balance {
+  text-wrap: balance;
+}
+
+/* Subtle film grain — dark sections only */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+}
+
+.hairline {
+  height: 1px;
+  background: var(--detail);
+  opacity: 0.45;
+}
+
+.issue-number {
+  font-family: var(--font-headline);
+  color: var(--detail);
+  font-style: italic;
+  letter-spacing: 0.04em;
+}
+
+.magazine-credit {
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+/* Custom video controls baseline */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.75rem 1rem;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}

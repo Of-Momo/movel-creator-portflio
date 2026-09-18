@@ -1,0 +1,53 @@
+{
+  "name": "movel-portfolio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "seed": "tsx scripts/seed.ts",
+    "generate-placeholders": "python3 scripts/generate_placeholder_media.py",
+    "cf:build": "opennextjs-cloudflare build",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy"
+  },
+  "dependencies": {
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@marsidev/react-turnstile": "^1.1.0",
+    "@phosphor-icons/react": "^2.1.7",
+    "@portabletext/react": "^3.2.1",
+    "@sanity/color-input": "^4.0.2",
+    "@sanity/icons": "^3.5.7",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/preview-url-secret": "^2.1.10",
+    "@sanity/vision": "^3.68.3",
+    "clsx": "^2.1.1",
+    "next": "^15.1.6",
+    "next-auth": "^5.0.0-beta.25",
+    "next-sanity": "^9.8.53",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "resend": "^4.1.2",
+    "sanity": "^3.68.3",
+    "styled-components": "^6.1.14"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.6",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.6",
+    "@types/react-dom": "^19.0.3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.6",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "wrangler": "^3.101.0"
+  }
+}

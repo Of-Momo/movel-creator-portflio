@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    .m { fill: #7B1E2C; }
+    @media (prefers-color-scheme: dark) {
+      .m { fill: #F4EDE4; }
+    }
+  </style>
+  <text x="32" y="46" text-anchor="middle" font-family="'Bodoni Moda', Georgia, 'Times New Roman', serif" font-style="italic" font-weight="700" font-size="46" class="m">M</text>
+</svg>
