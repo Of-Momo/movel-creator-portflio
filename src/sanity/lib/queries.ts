@@ -43,6 +43,12 @@ export const aboutPageQuery = groq`*[_type == "aboutPage"][0]{ ${sectionsFragmen
 export const workPageQuery = groq`*[_type == "workPage"][0]{ heading, subline, ${sectionsFragment}, ${seoFragment} }`;
 export const contactPageQuery = groq`*[_type == "contactPage"][0]{ ${sectionsFragment}, ${seoFragment} }`;
 
+// Raw (no joins/derefs) — for the manage editor, safe to write straight back.
+export const rawHomePageQuery = groq`*[_type == "homePage"][0]{sections, seo}`;
+export const rawAboutPageQuery = groq`*[_type == "aboutPage"][0]{sections, seo}`;
+export const rawWorkPageQuery = groq`*[_type == "workPage"][0]{heading, subline, sections, seo}`;
+export const rawContactPageQuery = groq`*[_type == "contactPage"][0]{sections, seo}`;
+
 export const introVideoQuery = groq`*[_type == "introVideo"][0]`;
 export const siteStyleQuery = groq`*[_type == "siteStyle"][0]`;
 export const siteSettingsQuery = groq`*[_type == "siteSettings"][0]`;
@@ -69,5 +75,13 @@ export const allProjectSlugsForFeedQuery = groq`
 `;
 
 export const brandsQuery = groq`*[_type == "brand" && showOnSite == true] | order(name asc)`;
+export const allBrandsQuery = groq`*[_type == "brand"] | order(name asc)`;
+
+export const allProjectsForManageQuery = groq`
+  *[_type == "project"] | order(orderRank asc){
+    _id, number, slug, caption, thumbnail, video, reasoningVideo, orientation, showOnHomepage, isPlaceholder,
+    "brandId": brand._ref
+  }
+`;
 export const faqAboutQuery = groq`*[_type == "faq" && showOnAbout == true] | order(order asc)`;
 export const faqAllQuery = groq`*[_type == "faq"] | order(order asc)`;

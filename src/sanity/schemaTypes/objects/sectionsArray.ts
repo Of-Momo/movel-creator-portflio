@@ -1,22 +1,7 @@
 import { defineField } from "sanity";
+import { SECTION_TYPES } from "@/lib/sectionTypes";
 
-export const SECTION_TYPES = [
-  "sectionCover",
-  "sectionIntroVideo",
-  "sectionServicesSpread",
-  "sectionFeaturedWork",
-  "sectionBrandStrip",
-  "sectionPullQuote",
-  "sectionQuickAnswers",
-  "sectionFullFaq",
-  "sectionClosingLine",
-  "sectionRichText",
-  "sectionPhotoText",
-  "sectionBtsGallery",
-  "sectionContactForm",
-  "sectionReasoningGallery",
-  "sectionPricing",
-] as const;
+export { SECTION_TYPES };
 
 export const sectionsField = defineField({
   name: "sections",
