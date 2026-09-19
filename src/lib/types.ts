@@ -80,8 +80,7 @@ export interface SiteSettings {
   location?: string;
   servicesSummary?: string[];
   defaultSeo?: SeoFields;
-  assistantAccessEnabled?: boolean;
-  assistantEmails?: string[];
+  assistantAccessNote?: string;
 }
 
 export interface ContactSettings {

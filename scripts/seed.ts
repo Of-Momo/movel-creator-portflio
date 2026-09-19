@@ -142,8 +142,7 @@ async function main() {
       description:
         "Mo is a Lagos-based content creator and director making short-form brand video, in front of the camera or behind it, for brands in Nigeria and worldwide.",
     },
-    assistantAccessEnabled: false,
-    assistantEmails: [],
+    assistantAccessNote: "Set on the server, not here — see SETUP.md.",
   });
 
   console.log("Intro Video…");

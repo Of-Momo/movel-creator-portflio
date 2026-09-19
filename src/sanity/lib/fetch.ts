@@ -1,4 +1,5 @@
-import { client } from "./client";
+import { draftMode } from "next/headers";
+import { client, getDraftModeClient } from "./client";
 import { isConfigured } from "./env";
 import * as q from "./queries";
 import type {
@@ -8,6 +9,10 @@ import type {
 async function safeFetch<T>(query: string, params: Record<string, unknown>, fallback: T): Promise<T> {
   if (!isConfigured) return fallback;
   try {
+    const { isEnabled } = await draftMode();
+    if (isEnabled) {
+      return await getDraftModeClient(true).fetch<T>(query, params);
+    }
     return await client.fetch<T>(query, params, { next: { revalidate: 60 } });
   } catch (err) {
     console.error("Sanity fetch failed:", err);

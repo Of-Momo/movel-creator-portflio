@@ -64,14 +64,15 @@ All of these have free plans that comfortably cover this site, and none of them 
 3. Domains → Add Domain → enter `movelstudio.com` → it'll show you a couple of DNS records to add. Since your domain is on Cloudflare, add these in Cloudflare's DNS settings (dashboard → your site → DNS → Add record, copy each one exactly as Resend shows it).
 4. Once verified (can take a few minutes to a few hours), go to API Keys → Create API Key → copy it into `.env` as `RESEND_API_KEY`.
 
-### 5. Google Cloud (lets you sign into `/post` with your Google account)
+### 5. Choose your `/post` passcodes (no account needed)
 
-1. Go to console.cloud.google.com, sign in with the same Google account as your Sanity admin.
-2. Create a new project (top left, "New Project"), call it "MOVEL".
-3. Go to "APIs & Services" → "OAuth consent screen" → choose "External" → fill in the app name (MOVEL) and your email, save through the prompts.
-4. Go to "Credentials" → "Create Credentials" → "OAuth client ID" → Application type: "Web application".
-5. Under "Authorized redirect URIs" add: `https://movelstudio.com/api/auth/callback/google`
-6. Click Create. Copy the **Client ID** and **Client Secret** into `.env` as `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+`/post`, the quick-post screen for your phone, is protected by a passcode instead of a login system — one less account to set up. You just make these up yourself:
+
+1. Pick a passcode for yourself — anything memorable, like a short phrase or PIN. This goes in `.env` as `OWNER_PASSCODE`.
+2. Optional: pick a second passcode for an assistant, if you ever want someone to be able to post drafts for you to review. This goes in `.env` as `ASSISTANT_PASSCODE`. Leave it blank to keep assistant access off.
+3. Generate one more random string for `POST_SESSION_SECRET` (this just keeps your sign-in secure — it's not something you type in). Any long random text works; if you're comfortable with a terminal, `openssl rand -base64 32` generates one.
+
+You (or your developer) can change either passcode any time by editing these values in Cloudflare's dashboard (Workers & Pages → your project → Settings → Variables) and redeploying — no need to come back to this guide.
 
 ---
 
@@ -83,7 +84,6 @@ All of these have free plans that comfortably cover this site, and none of them 
 | Cloudflare Workers | 100,000 requests/day | Requests over the limit are blocked for the rest of the day, not billed, unless you explicitly enable a paid plan. |
 | Resend | 3,000 emails/month, 100/day | Extra emails simply fail to send until the next day/month — no surprise bill. |
 | Cloudflare Turnstile, Web Analytics, Email Routing | No meaningful free-tier limit for a site this size | — |
-| Google OAuth (sign-in) | No practical limit for a handful of users | — |
 
 **None of these bill automatically.** If you ever outgrow a free tier, each service will tell you clearly and ask you to opt into a paid plan — nothing happens behind your back.
 
@@ -95,7 +95,7 @@ Your developer will do this if they're setting it up, but if you're doing it you
 
 1. Find the file called `.env.example` in the project folder.
 2. Make a copy of it, name the copy `.env`.
-3. Open `.env` in any text editor and fill in each value using what you collected in Part 1 (Sanity project ID and token, Google client ID/secret, Resend API key, Turnstile keys).
+3. Open `.env` in any text editor and fill in each value using what you collected in Part 1 (Sanity project ID and token, your `/post` passcodes, Resend API key, Turnstile keys).
 
 ---
 
@@ -124,15 +124,17 @@ This fills your Sanity project with all the starter text, pages, and placeholder
 
 ### Editing content
 
-Go to `movelstudio.com/admin`, sign in with Google. Everything — text, images, videos, colours, fonts, the FAQ, the sections on every page — is editable there. Changes show a **preview** before you publish; nothing goes live until you hit Publish, and the live site updates within a minute or two after.
+Go to `movelstudio.com/admin`, sign in with Google. Everything — text, images, videos, colours, fonts, the FAQ, the sections on every page — is editable there.
+
+To **preview** a change before it's live: open the document you're editing, click **Presentation** in the left-hand menu (or the "Open preview" option on the document), and you'll see the real site rendered right there, including your unpublished changes, with a pink "Previewing unpublished changes" bar at the top so you always know you're looking at a draft. Nothing goes live until you hit **Publish** — the live site updates within a minute or two after.
 
 ### Posting new work from your phone
 
-Go to `movelstudio.com/post`, sign in with Google. Follow the steps on screen: pick a video (it compresses automatically on your phone — this can take a minute or two for a longer clip, keep the screen open), pick or type a brand, write your caption, optionally add a reasoning video, pick a thumbnail (or let it grab one automatically), decide if it should show on the homepage, preview it, then Publish. It appears at the top of the feed immediately.
+Go to `movelstudio.com/post` and enter your passcode (the one you set as `OWNER_PASSCODE`). Follow the steps on screen: pick a video (it compresses automatically on your phone — this can take a minute or two for a longer clip, keep the screen open), pick or type a brand, write your caption, optionally add a reasoning video, pick a thumbnail (or let it grab one automatically), decide if it should show on the homepage, preview it, then Publish. It appears at the top of the feed immediately.
 
 ### Letting someone else post for you (optional)
 
-`/admin` → Site Settings → Assistant Access. Switch it on, add their Google email address to the list. They can now sign into `/post` and upload videos and write captions — but everything they submit saves as a **draft**. Nothing goes live until you open `/admin`, find it under Projects, review it, and publish it yourself.
+Give them the `ASSISTANT_PASSCODE` you set in `.env`. They sign into `/post` with it and can upload videos and write captions — but everything they submit saves as a **draft**. Nothing goes live until you open `/admin`, find it under Projects, review it, and publish it yourself. To turn this off later, just remove `ASSISTANT_PASSCODE` from your environment variables and redeploy.
 
 ### Replacing placeholders
 

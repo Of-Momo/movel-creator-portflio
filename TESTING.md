@@ -43,7 +43,9 @@ A walk-through checklist for once the site is deployed. Do the phone section on 
 ## The admin (`/admin`)
 
 - [ ] Sign in with Google.
-- [ ] Edit any piece of text (e.g. the closing line) — you should see a live preview before publishing, and the change shouldn't appear on the real site until you hit Publish.
+- [ ] Edit any piece of text (e.g. the closing line), then open **Presentation** and confirm you see the real site with your unpublished change showing and a "Previewing unpublished changes" bar at the top — and that the change is NOT visible yet on the real site in a normal (non-preview) browser tab.
+- [ ] Click "Exit preview" in that bar — confirms you're back to seeing the normal published site.
+- [ ] Publish the change — it now shows on the real site.
 - [ ] Switch a homepage section off, save/publish — it disappears from the live site. Switch it back on — it reappears.
 - [ ] Drag two Projects into a different order in the Projects list — the Work grid and feed order updates to match after publishing.
 - [ ] Go to Site Style, change a colour, save as a new preset, then switch back to "Cherry Editorial" — the site's colours should change accordingly after publish.
@@ -51,14 +53,14 @@ A walk-through checklist for once the site is deployed. Do the phone section on 
 
 ## The quick-post screen (`/post`)
 
-- [ ] Sign in with Google (as the owner).
+- [ ] Enter your passcode (`OWNER_PASSCODE`).
 - [ ] Upload a video from your camera roll, including at least one `.mov` file straight from an iPhone — it should compress with a visible progress bar ("Compressing… X%" then "Uploading… X%") without you having to do anything else.
 - [ ] Try scrubbing to pick a thumbnail frame, and separately try uploading a thumbnail image — both should work.
 - [ ] Leave the thumbnail step alone entirely and publish — a frame should be grabbed automatically so the post never looks blank.
 - [ ] Type a brand new brand name instead of picking one from the list — it should show up correctly in the Brands list in `/admin` afterwards.
 - [ ] Preview the post before publishing — it should look like how it'll actually appear in the feed.
 - [ ] Publish — it should appear at the very top of the Work grid and feed.
-- [ ] If Assistant Access is turned on: sign in as an assistant account and publish something — it should NOT appear live; check `/admin` → Projects to confirm it saved as a draft awaiting your review.
+- [ ] If `ASSISTANT_PASSCODE` is set: sign out, sign back in with that passcode, and publish something — it should NOT appear live; check `/admin` → Projects to confirm it saved as a draft awaiting your review.
 
 ## Known limitation of this checklist
 

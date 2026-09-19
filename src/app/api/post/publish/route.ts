@@ -1,16 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { getSessionRole } from "@/lib/postSession";
 import { writeClient } from "@/sanity/lib/client";
 import { rankBefore } from "@/lib/orderRank";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  if (!session?.user) {
+  const role = await getSessionRole();
+  if (!role) {
     return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   }
-  const role = (session.user as any).role as "owner" | "assistant";
 
   const body = await req.json();
   const {

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { draftMode } from "next/headers";
 import { getIntroVideo, getSiteSettings, getSiteStyle, getSocials } from "@/sanity/lib/fetch";
+import { PreviewBanner } from "@/components/ui/PreviewBanner";
 import { IntroOverlayProvider } from "@/components/intro/IntroOverlayProvider";
 import { urlForImage } from "@/sanity/lib/image";
 import { googleFontsHref, resolveFonts, themeStyleVars } from "@/lib/theme";
@@ -44,11 +46,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [style, settings, socials, intro] = await Promise.all([
+  const [style, settings, socials, intro, { isEnabled: isPreview }] = await Promise.all([
     getSiteStyle(),
     getSiteSettings(),
     getSocials(),
     getIntroVideo(),
+    draftMode(),
   ]);
   const fonts = resolveFonts(style?.fonts);
   const styleVars = themeStyleVars(style);
@@ -94,6 +97,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main" className="skip-link">
           Skip to content
         </a>
+        {isPreview && <PreviewBanner />}
         <IntroOverlayProvider intro={intro}>
           <Nav />
           <main id="main">{children}</main>

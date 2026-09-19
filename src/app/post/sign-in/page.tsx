@@ -1,35 +1,57 @@
-import { signIn } from "@/auth";
+"use client";
 
-export default function SignInPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+export default function SignInPage() {
+  const router = useRouter();
+  const [passcode, setPasscode] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/post/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ passcode }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      router.push("/post");
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message);
+      setBusy(false);
+    }
+  };
+
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-6 px-6 text-center">
       <h1 className="font-headline text-3xl italic">MOVEL Quick Post</h1>
-      <p className="max-w-xs opacity-70">Sign in with the Google account Mo uses for this site.</p>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("google", { redirectTo: "/post" });
-        }}
-      >
+      <p className="max-w-xs opacity-70">Enter your passcode to post new work.</p>
+      <form onSubmit={handleSubmit} className="flex w-full max-w-xs flex-col gap-3">
+        <input
+          type="password"
+          inputMode="numeric"
+          autoFocus
+          value={passcode}
+          onChange={(e) => setPasscode(e.target.value)}
+          placeholder="Passcode"
+          className="rounded border border-detail/40 bg-transparent px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-accent"
+        />
         <button
           type="submit"
-          className="rounded-full bg-accent px-8 py-3 text-sm uppercase tracking-[0.15em] text-paper"
+          disabled={busy || !passcode}
+          className="rounded-full bg-accent px-8 py-3 text-sm uppercase tracking-[0.15em] text-paper disabled:opacity-40"
         >
-          Continue with Google
+          {busy ? "Checking…" : "Continue"}
         </button>
       </form>
-      <SearchParamsError searchParams={searchParams} />
+      {error && <p className="max-w-xs text-sm text-accent">{error}</p>}
     </div>
-  );
-}
-
-async function SearchParamsError({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
-  const { error } = await searchParams;
-  if (!error) return null;
-  return (
-    <p className="max-w-xs text-sm text-accent">
-      That Google account doesn&rsquo;t have access to Quick Post yet. Ask Mo to add it in the admin under Site
-      Settings → Assistant access.
-    </p>
   );
 }

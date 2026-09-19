@@ -104,17 +104,20 @@ def silhouette_cutout(size, out_path):
     w, h = size
     img = Image.new("RGBA", size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
+    # Size relative to height (not width) so the "person" reads proportionally
+    # whether the frame is a tall mobile crop or a wide desktop crop.
     cx = w * 0.5
-    head_r = w * 0.16
-    head_cy = h * 0.32
+    head_r = min(h * 0.1, w * 0.28)
+    head_cy = h * 0.46
     draw.ellipse([cx - head_r, head_cy - head_r, cx + head_r, head_cy + head_r], fill=(*INK, 255))
     shoulder_top = head_cy + head_r * 0.7
+    shoulder_half_w = min(w * 0.34, head_r * 2.2)
     draw.polygon(
         [
-            (cx - w * 0.34, h * 1.05),
-            (cx - w * 0.22, shoulder_top),
-            (cx + w * 0.22, shoulder_top),
-            (cx + w * 0.34, h * 1.05),
+            (cx - shoulder_half_w, h * 1.05),
+            (cx - shoulder_half_w * 0.65, shoulder_top),
+            (cx + shoulder_half_w * 0.65, shoulder_top),
+            (cx + shoulder_half_w, h * 1.05),
         ],
         fill=(*INK, 255),
     )

@@ -3,7 +3,8 @@ import { urlForImage } from "@/sanity/lib/image";
 import type { Project, Section } from "@/lib/types";
 
 export function FeaturedWorkSection({ data }: { data: Section & { projects?: Project[] } }) {
-  const projects = data.projects || [];
+  const maxItems = (data.maxItems as number) || 3;
+  const projects = (data.projects || []).slice(0, maxItems);
   return (
     <div>
       <div className="flex items-baseline justify-between">

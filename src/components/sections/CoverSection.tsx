@@ -109,9 +109,9 @@ export function CoverSection({ data }: { data: Section }) {
       </div>
 
       {/* Masthead — sits behind the cutout */}
-      <div className="pointer-events-none absolute inset-x-0 top-[8%] z-10 text-center sm:top-[10%]">
+      <div className="pointer-events-none absolute inset-x-0 top-[6%] z-10 text-center sm:top-[7%]">
         <p className="issue-number text-xs sm:text-sm">{data.issueLine as string}</p>
-        <h1 className="font-headline text-[18vw] leading-none tracking-tight sm:text-[9vw]">
+        <h1 className="font-headline text-[16vw] leading-none tracking-tight sm:text-[6.5vw]">
           {data.masthead as string}
         </h1>
       </div>

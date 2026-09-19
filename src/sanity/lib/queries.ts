@@ -7,7 +7,7 @@ const sectionsFragment = `
     ...,
     _type == "sectionFeaturedWork" => {
       ...,
-      "projects": *[_type == "project" && showOnHomepage == true] | order(orderRank asc)[0...^.maxItems]{
+      "projects": *[_type == "project" && showOnHomepage == true] | order(orderRank asc)[0...6]{
         _id, number, slug, caption, thumbnail, orientation, "brand": brand->{name, logo}, "hasReasoning": defined(reasoningVideo)
       }
     },
