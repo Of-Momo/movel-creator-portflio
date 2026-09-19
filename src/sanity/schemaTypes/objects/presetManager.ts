@@ -7,6 +7,6 @@ export default defineType({
   type: "object",
   components: { input: PresetManager },
   fields: [
-    defineField({ name: "_placeholder", title: "Placeholder", type: "string", hidden: true }),
+    defineField({ name: "placeholder", title: "Placeholder", type: "string", hidden: true }),
   ],
 });
