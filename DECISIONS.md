@@ -6,6 +6,17 @@ Every assumption or choice made while building this that wasn't spelled out in t
 
 The build sandbox this site was made in has no network access to Pexels, Unsplash, or Google Fonts' file CDN (organisation policy blocks those hosts). So the "real stock photography" the brief asked for doesn't exist in this build — instead, every photo/video placeholder is an abstract generated graphic in the site's palette (see `CREDITS.md` for the full explanation and exactly where to find real replacements). This is genuinely the most important thing to fix before launch, and it's first on the CONFIRM list in `SETUP.md`.
 
+## Custom /manage editor, replacing Sanity Studio at /admin
+
+Built at Mo's request, after Sanity Studio's generic UI didn't feel like part of the site. `/manage` is a from-scratch, MOVEL-styled editor (own layout, own forms, own colours/fonts) that talks to Sanity directly via a set of `/api/manage/*` routes, gated on the same owner-passcode session `/post` already uses — no separate account. `/admin` (Sanity Studio) is untouched and still works; nothing was removed.
+
+Two real trade-offs from building this instead of using Studio's generic, already-solved version of the same problem:
+
+- **No draft/preview step.** Sanity Studio has a full draft → preview → publish workflow (see the Presentation tool in the "Live preview" section above). `/manage` doesn't — every Save writes straight to the published document. This was a scope call: replicating draft state, a preview-mode client, and a review screen would have roughly doubled the size of this build. `SETUP.md` now says this plainly and suggests checking the live site right after a big change rather than trusting a preview.
+- **Rich text is deliberately read-only where it's not "just paragraphs."** `sectionRichText`'s body is Sanity's Portable Text format, which can embed photos, BTS clips, pull quotes, icons, and logo rows between paragraphs (see `richTextBody.ts`). Building a full custom rich text editor with all of that was out of scope. `/manage` converts a *simple* body (plain paragraph blocks only) to and from an ordinary textarea, but if it detects anything more complex already in there, it shows a read-only notice instead of an editable box for that field, specifically so a save can't silently delete embedded content it doesn't know how to round-trip. The rest of that section's fields (heading, signature) stay editable either way. This only affects sections that already used those richer embeds — the Editor's Letter on About is the one most likely to.
+
+Everything else — Site Style, Homepage/About/Work/Contact's section builder (all 15 section types), Projects, Brands, FAQ, Socials, Contact Form Settings, Site Settings — has full parity with what Studio could do for those fields. Media uploads in `/manage` reuse the exact same compression + upload pipeline `/post` already had (`useMediaUpload`, hitting `/api/post/upload-asset`), so there's one upload path for the whole site, not two.
+
 ## Stack
 
 - **Next.js 15 (App Router)**, not Astro — needed for Sanity's draft-mode preview API and React Server Components made the section-builder pattern (server-rendered sections, client islands only where there's real interactivity) straightforward.

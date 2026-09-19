@@ -131,9 +131,13 @@ This is covered in Part 1, section 3 (Vercel) above — connect the GitHub repo,
 
 ### Editing content
 
-Go to `movelstudio.com/admin`, sign in with Google. Everything — text, images, videos, colours, fonts, the FAQ, the sections on every page — is editable there.
+Go to `movelstudio.com/manage`, sign in with your **owner passcode** (the same one you use for `/post`, not a Google sign-in). This is a custom editor built to match the site's own look, covering everything: Site Style, Homepage, About, Work, Contact, Projects, Brands, FAQ, Socials, and Contact Form Settings.
 
-To **preview** a change before it's live: open the document you're editing, click **Presentation** in the left-hand menu (or the "Open preview" option on the document), and you'll see the real site rendered right there, including your unpublished changes, with a pink "Previewing unpublished changes" bar at the top so you always know you're looking at a draft. Nothing goes live until you hit **Publish** — the live site updates within a minute or two after.
+**Important difference from a typical CMS: there's no draft/preview step in `/manage`.** Hitting Save publishes immediately — there's no "preview it first, then publish" pause. If you want to see a big change (like a full page's sections) before it's real, the safest approach is to make the change, check the live site right after, and fix anything off from there — most edits are quick to reverse.
+
+**One thing `/manage` can't do yet:** if a "Rich text" section already has photos, BTS clips, pull quotes, or logo rows woven into the paragraphs (the Editor's Letter on About is the one that might), `/manage` shows a notice instead of an editable box for that section's body, to avoid silently deleting those embedded items. For that specific case only, use the old editor:
+
+Go to `movelstudio.com/admin`, sign in with Google (this one's Sanity's own hosted login, separate from your owner passcode). Find the page → the Rich text section → edit the body there as normal, including a **Presentation** preview before you publish, which `/manage` doesn't have. Everything else on the site is fine to edit from `/manage`.
 
 ### Posting new work from your phone
 
