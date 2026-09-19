@@ -130,7 +130,7 @@ export function StyleEditor({
                 className="rounded border border-detail/40 bg-transparent px-2 py-1.5 outline-none focus:border-accent"
               >
                 {HEADLINE_FONTS.map((f) => (
-                  <option key={f} value={f}>{f}</option>
+                  <option key={f} value={f} style={{ fontFamily: `"${f}", serif` }}>{f}</option>
                 ))}
               </select>
             </label>
@@ -142,7 +142,7 @@ export function StyleEditor({
                 className="rounded border border-detail/40 bg-transparent px-2 py-1.5 outline-none focus:border-accent"
               >
                 {BODY_FONTS.map((f) => (
-                  <option key={f} value={f}>{f}</option>
+                  <option key={f} value={f} style={{ fontFamily: `"${f}", sans-serif` }}>{f}</option>
                 ))}
               </select>
             </label>
@@ -154,7 +154,7 @@ export function StyleEditor({
                 className="rounded border border-detail/40 bg-transparent px-2 py-1.5 outline-none focus:border-accent"
               >
                 {SIGNATURE_FONTS.map((f) => (
-                  <option key={f} value={f}>{f}</option>
+                  <option key={f} value={f} style={{ fontFamily: `"${f}", cursive` }}>{f}</option>
                 ))}
               </select>
             </label>

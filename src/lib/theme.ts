@@ -11,6 +11,10 @@ const GOOGLE_FONT_SPECS: Record<string, string> = {
   "Libre Caslon Display": "Libre+Caslon+Display",
   Gloock: "Gloock",
   Italiana: "Italiana",
+  "Instrument Serif": "Instrument+Serif:ital@0;1",
+  Newsreader: "Newsreader:ital,wght@0,400;0,600;1,400",
+  Spectral: "Spectral:ital,wght@0,400;0,600;1,400",
+  Domine: "Domine:wght@400;600;700",
   // body sans
   "DM Sans": "DM+Sans:wght@400;500;700",
   Manrope: "Manrope:wght@400;500;700",
@@ -18,10 +22,17 @@ const GOOGLE_FONT_SPECS: Record<string, string> = {
   "Work Sans": "Work+Sans:wght@400;500;700",
   Karla: "Karla:wght@400;500;700",
   Inter: "Inter:wght@400;500;700",
+  "Space Grotesk": "Space+Grotesk:wght@400;500;700",
+  Sora: "Sora:wght@400;500;700",
+  "Plus Jakarta Sans": "Plus+Jakarta+Sans:wght@400;500;700",
+  Urbanist: "Urbanist:wght@400;500;700",
   // signature
   "Pinyon Script": "Pinyon+Script",
   "Great Vibes": "Great+Vibes",
   Allura: "Allura",
+  "Dancing Script": "Dancing+Script:wght@400;700",
+  Sacramento: "Sacramento",
+  Parisienne: "Parisienne",
 };
 
 export function googleFontsHref(fonts: ThemeFonts) {
@@ -30,6 +41,12 @@ export function googleFontsHref(fonts: ThemeFonts) {
     .map((f) => GOOGLE_FONT_SPECS[f] || f.replace(/ /g, "+"));
   const unique = Array.from(new Set(families));
   const query = unique.map((f) => `family=${f}`).join("&");
+  return `https://fonts.googleapis.com/css2?${query}&display=swap`;
+}
+
+export function allFontOptionsHref() {
+  const families = Object.values(GOOGLE_FONT_SPECS);
+  const query = families.map((f) => `family=${f}`).join("&");
   return `https://fonts.googleapis.com/css2?${query}&display=swap`;
 }
 

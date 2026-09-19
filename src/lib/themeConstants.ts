@@ -1,9 +1,13 @@
 export const HEADLINE_FONTS = [
   "Bodoni Moda", "Playfair Display", "DM Serif Display", "Cormorant Garamond",
   "Fraunces", "Libre Caslon Display", "Gloock", "Italiana",
+  "Instrument Serif", "Newsreader", "Spectral", "Domine",
 ];
-export const BODY_FONTS = ["DM Sans", "Manrope", "Outfit", "Work Sans", "Karla", "Inter"];
-export const SIGNATURE_FONTS = ["Pinyon Script", "Great Vibes", "Allura"];
+export const BODY_FONTS = [
+  "DM Sans", "Manrope", "Outfit", "Work Sans", "Karla", "Inter",
+  "Space Grotesk", "Sora", "Plus Jakarta Sans", "Urbanist",
+];
+export const SIGNATURE_FONTS = ["Pinyon Script", "Great Vibes", "Allura", "Dancing Script", "Sacramento", "Parisienne"];
 
 export const DEFAULT_THEME = {
   name: "Cherry Editorial",
