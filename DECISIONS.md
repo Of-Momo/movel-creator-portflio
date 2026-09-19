@@ -12,6 +12,7 @@ The build sandbox this site was made in has no network access to Pexels, Unsplas
 - **Hosting: Cloudflare Workers via `@opennextjs/cloudflare`**, not Cloudflare Pages. Pages' framework support for full Next.js (API routes, dynamic rendering, ISR) is more limited than the OpenNext adapter, which Cloudflare now recommends for Next.js. Both are free-tier options with no auto-billing.
 - **The contact form** is a Next.js Route Handler (`src/app/api/contact/route.ts`), not a separate Cloudflare Pages Function. On the OpenNext/Workers deploy target this runs as Worker code either way — one deploy target is simpler for Mo than managing two.
 - **Sanity Studio v3** (not v4/beta) for stability; embedded at `/admin` via `next-sanity`'s `NextStudio` component rather than a separate deploy.
+- **`wrangler` pinned to v4** (bumped from v3 during setup) — `@opennextjs/cloudflare` now requires `wrangler@^4.125.0` as a peer dependency, and `npm install` fails outright on v3. No config changes were needed; `wrangler.jsonc` and `open-next.config.ts` are unaffected.
 
 ## Ordering, drafts, and the write path
 
