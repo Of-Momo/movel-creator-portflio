@@ -140,7 +140,15 @@ export function ReelFeed({
 
       {reasoningOpen && reasoningSrc && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-ink">
-          <video className="h-full w-full object-contain" src={reasoningSrc} autoPlay playsInline controls />
+          <video
+            className="h-full w-full object-contain"
+            src={reasoningSrc}
+            playsInline
+            controls
+            ref={(el) => {
+              el?.play().catch(() => {});
+            }}
+          />
           <button
             type="button"
             onClick={() => setReasoningOpen(false)}
