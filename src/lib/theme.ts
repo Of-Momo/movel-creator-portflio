@@ -1,5 +1,5 @@
 import type { SiteStyle, ThemeColors, ThemeFonts } from "./types";
-import { DEFAULT_THEME } from "@/sanity/schemaTypes/documents/siteStyle";
+import { DEFAULT_THEME } from "@/lib/themeConstants";
 
 const GOOGLE_FONT_SPECS: Record<string, string> = {
   // headline serifs
