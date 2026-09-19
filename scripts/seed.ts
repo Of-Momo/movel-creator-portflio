@@ -1,7 +1,10 @@
 import "dotenv/config";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { createClient } from "@sanity/client";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import { paragraphsToBlocks } from "./portableText";
 import * as seed from "./seedData";
 import { DEFAULT_THEME } from "../src/sanity/schemaTypes/documents/siteStyle";
