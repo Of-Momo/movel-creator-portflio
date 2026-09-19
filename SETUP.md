@@ -41,12 +41,23 @@ All of these have free plans that comfortably cover this site, and none of them 
 6. Still in sanity.io/manage → API → Tokens, create a new token with **Editor** permissions. Copy it somewhere safe immediately — Sanity only shows it once. This is your `SANITY_API_WRITE_TOKEN`.
 7. **Turn on 2-step verification on this Google account.** This protects your entire content system. On google.com/account → Security → 2-Step Verification → follow the prompts.
 
-### 3. Cloudflare (hosts the website, handles the domain, spam protection, analytics)
+### 3. Vercel (hosts the website)
+
+The site's code lives on GitHub. Vercel is what actually runs it and serves it to visitors.
+
+1. Go to vercel.com → sign up (using the same GitHub account this code is on makes this easiest — "Continue with GitHub").
+2. **Add New → Project** → pick this repository from the list → Vercel auto-detects it's a Next.js app, you don't need to change any build settings.
+3. Before clicking Deploy, add your environment variables — same values as your `.env` file (Part 3 below covers what each one is): open the "Environment Variables" section on that same screen and paste in each one (`NEXT_PUBLIC_SANITY_PROJECT_ID`, `SANITY_API_WRITE_TOKEN`, `OWNER_PASSCODE`, etc.).
+4. Click **Deploy**. First deploy takes a couple of minutes. You'll get a `*.vercel.app` URL to test on immediately.
+5. **Connect your domain:** Project → Settings → Domains → add `movelstudio.com`. Vercel shows you a DNS record to add (usually an A record for the root domain and a CNAME for `www`). Since your domain's DNS lives at Cloudflare (see next section), add that record there: Cloudflare dashboard → your site → DNS → Records → Add record, matching exactly what Vercel shows you.
+6. Free plan note: Vercel's free "Hobby" tier is meant for personal/non-commercial projects. It's extremely common to run a small business site on it anyway and it's rarely an issue, but if Vercel ever flags it, the fix is upgrading to Pro ($20/month) — just something to know going in.
+7. **Re-deploying after a code change:** if you're comfortable with git, `git push` to the connected branch and Vercel redeploys automatically — no command to remember. If someone else (a developer) maintains the code, this happens automatically whenever they push.
+
+### 4. Cloudflare (domain DNS, spam protection, analytics)
 
 1. Go to cloudflare.com and sign up (a personal email + password is fine, or Google sign-in).
 2. Choose the **Free plan**.
-3. You'll set up the actual site hosting with your developer (it involves a command-line deploy step: `npm run cf:deploy`). Once deployed once, Cloudflare gives you a dashboard where you can see traffic, and re-deploys are just re-running that command.
-4. **Move your domain's DNS to Cloudflare:**
+3. **Move your domain's DNS to Cloudflare:**
    - In the Cloudflare dashboard, click "Add a site" and enter `movelstudio.com`.
    - Cloudflare will scan your current DNS records and show you a set of nameservers (two addresses like `xxx.ns.cloudflare.com`).
    - Go to wherever you bought movelstudio.com (your registrar — GoDaddy, Namecheap, etc.), find the DNS or Nameserver settings, and replace the existing nameservers with the two Cloudflare gives you.
@@ -57,14 +68,14 @@ All of these have free plans that comfortably cover this site, and none of them 
    - **Where to see your numbers:** same place, Analytics & Logs → Web Analytics, any time. No login needed for anyone but you.
 8. **Optional — hello@movelstudio.com inbox:** dashboard → your site → Email → Email Routing → follow the setup (it asks you to add a couple of DNS records, which it does for you automatically since your domain is already on Cloudflare) → add a routing rule forwarding `hello@movelstudio.com` to whatever inbox you actually check (Gmail, etc.). Free, no new inbox to check separately.
 
-### 4. Resend (sends the contact form emails)
+### 5. Resend (sends the contact form emails)
 
 1. Go to resend.com and sign up.
 2. Free plan.
 3. Domains → Add Domain → enter `movelstudio.com` → it'll show you a couple of DNS records to add. Since your domain is on Cloudflare, add these in Cloudflare's DNS settings (dashboard → your site → DNS → Add record, copy each one exactly as Resend shows it).
 4. Once verified (can take a few minutes to a few hours), go to API Keys → Create API Key → copy it into `.env` as `RESEND_API_KEY`.
 
-### 5. Choose your `/post` passcodes (no account needed)
+### 6. Choose your `/post` passcodes (no account needed)
 
 `/post`, the quick-post screen for your phone, is protected by a passcode instead of a login system — one less account to set up. You just make these up yourself:
 
@@ -72,7 +83,7 @@ All of these have free plans that comfortably cover this site, and none of them 
 2. Optional: pick a second passcode for an assistant, if you ever want someone to be able to post drafts for you to review. This goes in `.env` as `ASSISTANT_PASSCODE`. Leave it blank to keep assistant access off.
 3. Generate one more random string for `POST_SESSION_SECRET` (this just keeps your sign-in secure — it's not something you type in). Any long random text works; if you're comfortable with a terminal, `openssl rand -base64 32` generates one.
 
-You (or your developer) can change either passcode any time by editing these values in Cloudflare's dashboard (Workers & Pages → your project → Settings → Variables) and redeploying — no need to come back to this guide.
+You (or your developer) can change either passcode any time by editing these values in Vercel's dashboard (your project → Settings → Environment Variables) and redeploying — no need to come back to this guide.
 
 ---
 
@@ -81,9 +92,9 @@ You (or your developer) can change either passcode any time by editing these val
 | Service | Free limit (check the provider's site for the current number — these change) | What happens if you go over |
 |---|---|---|
 | Sanity | ~5GB of assets (images/video), 100k API requests/month, 3 admin users | Sanity pauses uploads/requests until you upgrade or the month resets — it does not silently start billing you. |
-| Cloudflare Workers | 100,000 requests/day | Requests over the limit are blocked for the rest of the day, not billed, unless you explicitly enable a paid plan. |
+| Vercel (Hobby plan) | 100GB bandwidth/month, generous function usage for a site this size | Vercel emails you before anything's blocked. Hobby is meant for personal/non-commercial use — see the note in Part 1 about running a business site on it. |
 | Resend | 3,000 emails/month, 100/day | Extra emails simply fail to send until the next day/month — no surprise bill. |
-| Cloudflare Turnstile, Web Analytics, Email Routing | No meaningful free-tier limit for a site this size | — |
+| Cloudflare Turnstile, Web Analytics, Email Routing, DNS | No meaningful free-tier limit for a site this size | — |
 
 **None of these bill automatically.** If you ever outgrow a free tier, each service will tell you clearly and ask you to opt into a paid plan — nothing happens behind your back.
 
@@ -112,11 +123,7 @@ This fills your Sanity project with all the starter text, pages, and placeholder
 
 ## Part 5 — Deploying the site
 
-1. In the project folder: `npm run cf:build` then `npm run cf:deploy`. The first time, it'll ask you to log into Cloudflare in your browser.
-2. Once deployed, Cloudflare gives you a `*.workers.dev` URL to test on immediately.
-3. To connect it to `movelstudio.com`, go to the Cloudflare dashboard → Workers & Pages → your MOVEL project → Custom Domains → add `movelstudio.com`.
-
-**Optional performance upgrade, once the basic site is live:** add an R2 bucket for faster repeat page loads. Run `npx wrangler r2 bucket create movel-portfolio-opennext-cache`, then uncomment the R2 section in `wrangler.jsonc` (or ask your developer to) and redeploy. Cloudflare's R2 free tier (10GB storage) comfortably covers this.
+This is covered in Part 1, section 3 (Vercel) above — connect the GitHub repo, paste in your environment variables, deploy, then add `movelstudio.com` as a domain in Vercel's project settings and point the DNS record it gives you from Cloudflare's DNS tab. Once that's done once, every future code change just needs a `git push` and Vercel redeploys automatically.
 
 ---
 

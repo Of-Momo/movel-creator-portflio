@@ -17,7 +17,9 @@ npm install
 cp .env.example .env   # fill in Sanity/Google/Resend/Turnstile keys — see SETUP.md
 npm run dev             # local dev server
 npm run seed             # populate Sanity with all the brief's seed content + placeholder media
-npm run cf:build && npm run cf:deploy   # deploy to Cloudflare Workers
+git push                # deploy — Vercel auto-deploys on push once the repo's connected, see SETUP.md
 ```
 
-Stack: Next.js 15 (App Router) · Sanity Studio v3 (embedded at `/admin`) · Tailwind CSS · Cloudflare Workers (via `@opennextjs/cloudflare`) · Resend · Cloudflare Turnstile · NextAuth (Google sign-in for `/post`).
+Stack: Next.js 15 (App Router) · Sanity Studio v3 (embedded at `/admin`) · Tailwind CSS · hosted on Vercel · Resend · Cloudflare (DNS, Turnstile, Web Analytics, Email Routing) · passcode auth for `/post`.
+
+A Cloudflare Workers deploy path also exists (`npm run cf:build && npm run cf:deploy`, via `@opennextjs/cloudflare`) but isn't the one in use — the embedded Sanity Studio route is too heavy for the free Workers plan's CPU-time limit and intermittently throws a 1102 resource-limit error there.
