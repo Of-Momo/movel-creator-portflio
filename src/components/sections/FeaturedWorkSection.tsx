@@ -9,7 +9,7 @@ export function FeaturedWorkSection({ data }: { data: Section & { projects?: Pro
       <div className="flex items-baseline justify-between">
         <h2 className="font-headline text-3xl italic sm:text-4xl">{data.heading as string}</h2>
       </div>
-      {data.subline && <p className="mt-2 text-sm opacity-70">{data.subline as string}</p>}
+      {Boolean(data.subline) && <p className="mt-2 text-sm opacity-70">{data.subline as string}</p>}
 
       <div className="mt-10 grid gap-8 sm:grid-cols-3">
         {projects.map((p) => {

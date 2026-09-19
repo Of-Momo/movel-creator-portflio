@@ -7,7 +7,7 @@ const sectionsFragment = `
     ...,
     _type == "sectionFeaturedWork" => {
       ...,
-      "projects": *[_type == "project" && showOnHomepage == true] | order(order asc, number asc)[0...^.maxItems]{
+      "projects": *[_type == "project" && showOnHomepage == true] | order(orderRank asc)[0...^.maxItems]{
         _id, number, slug, caption, thumbnail, orientation, "brand": brand->{name, logo}, "hasReasoning": defined(reasoningVideo)
       }
     },
@@ -25,7 +25,7 @@ const sectionsFragment = `
     },
     _type == "sectionReasoningGallery" => {
       ...,
-      "projects": *[_type == "project" && defined(reasoningVideo)] | order(order asc, number asc)
+      "projects": *[_type == "project" && defined(reasoningVideo)] | order(orderRank asc)
     },
     _type == "sectionBtsGallery" => { ... },
     _type == "sectionRichText" => {
@@ -50,7 +50,7 @@ export const contactSettingsQuery = groq`*[_type == "contactSettings"][0]`;
 export const socialsQuery = groq`*[_type == "social"] | order(order asc)`;
 
 export const allProjectsForGridQuery = groq`
-  *[_type == "project"] | order(order asc, number asc){
+  *[_type == "project"] | order(orderRank asc){
     _id, number, slug, caption, thumbnail, orientation, "brand": brand->{name, logo}
   }
 `;
@@ -62,7 +62,7 @@ export const projectBySlugQuery = groq`
 `;
 
 export const allProjectSlugsForFeedQuery = groq`
-  *[_type == "project"] | order(order asc, number asc){
+  *[_type == "project"] | order(orderRank asc){
     _id, number, slug, caption, video, thumbnail, orientation, reasoningVideo,
     "brand": brand->{name, logo, _id}
   }

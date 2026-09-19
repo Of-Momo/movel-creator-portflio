@@ -7,7 +7,7 @@ export function ReasoningGallerySection({ data }: { data: Section & { projects?:
   return (
     <div>
       <h2 className="font-headline text-3xl italic sm:text-4xl">{data.heading as string}</h2>
-      {data.subline && <p className="mt-2 text-sm opacity-70">{data.subline as string}</p>}
+      {Boolean(data.subline) && <p className="mt-2 text-sm opacity-70">{data.subline as string}</p>}
       <div className="mt-8 grid gap-6 sm:grid-cols-3">
         {projects.map((p) => {
           const thumb = urlForImage(p.thumbnail)?.width(600).url();
