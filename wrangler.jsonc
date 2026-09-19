@@ -1,0 +1,19 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "movel-portfolio",
+	"main": ".open-next/worker.js",
+	"compatibility_date": "2025-01-01",
+	"compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	}
+	// Optional performance upgrade once the basic site is live — see SETUP.md.
+	// After running `npx wrangler r2 bucket create movel-portfolio-opennext-cache`,
+	// add this block above (after a comma on the "assets" line) and set
+	// `incrementalCache: r2IncrementalCache` in open-next.config.ts:
+	//
+	// "r2_buckets": [
+	//   { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "movel-portfolio-opennext-cache" }
+	// ]
+}

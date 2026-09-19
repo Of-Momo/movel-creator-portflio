@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAboutPage, getContactSettings, getIntroVideo } from "@/sanity/lib/fetch";
+import { getAboutPage, getContactSettings, getFaqAbout, getIntroVideo } from "@/sanity/lib/fetch";
 import { urlForImage } from "@/sanity/lib/image";
 import { SectionRenderer } from "@/components/sections/SectionRenderer";
 
@@ -19,10 +19,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [page, intro, contactSettings] = await Promise.all([
+  const [page, intro, contactSettings, faqs] = await Promise.all([
     getAboutPage(),
     getIntroVideo(),
     getContactSettings(),
+    getFaqAbout(),
   ]);
 
   if (!page) {
@@ -35,8 +36,24 @@ export default async function AboutPage() {
     );
   }
 
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.question,
+            acceptedAnswer: { "@type": "Answer", text: f.answer },
+          })),
+        }
+      : null;
+
   return (
     <div className="pt-20">
+      {faqJsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      )}
       <SectionRenderer sections={page.sections} intro={intro} contactSettings={contactSettings} />
     </div>
   );

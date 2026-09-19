@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { client } from "@/sanity/lib/client";
 import { contactSettingsQuery } from "@/sanity/lib/queries";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 async function verifyTurnstile(token: string | null, ip: string | null) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
